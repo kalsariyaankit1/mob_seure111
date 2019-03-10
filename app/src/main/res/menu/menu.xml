@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/btnCls"
+        android:title="Close Account">
+    </item>
+    <item android:id="@+id/btnLogout"
+        android:title="Log Out">
+    </item>
+    <item android:id="@+id/btnShow"
+        android:title="Show">
+    </item>
+    <item android:id="@+id/btnShow_contact"
+        android:title="Show_contact">
+    </item>
+
+</menu>
