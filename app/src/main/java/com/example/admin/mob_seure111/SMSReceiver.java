@@ -28,6 +28,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -113,30 +114,30 @@ public class SMSReceiver extends BroadcastReceiver {
                 boff = Common.getPreferenceString(context,"bf","");
                 if(sms.equalsIgnoreCase(nor)) {
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                    dbHelper.Insert(sms,orignatingAddress);
+                    dbHelper.InsertTrack(sms,orignatingAddress,String.valueOf(new Date()));
                     return;
                 }
                 if(sms.equalsIgnoreCase(sil)) {
                     audioManager.setRingerMode(1);
-                    dbHelper.Insert(sms,orignatingAddress);
+                    dbHelper.InsertTrack(sms,orignatingAddress,String.valueOf(new Date()));
                     return;
                 }
                 if(sms.equalsIgnoreCase(lock)) {
                     boolean active = deviceManger.isAdminActive(compName);
                     if (active) {
                         deviceManger.lockNow();
-                        dbHelper.Insert(sms,orignatingAddress);
+                        dbHelper.InsertTrack(sms,orignatingAddress,String.valueOf(new Date()));
                     }
                     return;
                 }
                 if(sms.equalsIgnoreCase(won)) {
                     wifiManager.setWifiEnabled(true);
-                    dbHelper.Insert(sms,orignatingAddress);
+                    dbHelper.InsertTrack(sms,orignatingAddress,String.valueOf(new Date()));
                     return;
                 }
                 if(sms.equalsIgnoreCase(woff)) {
                     wifiManager.setWifiEnabled(false);
-                    dbHelper.Insert(sms,orignatingAddress);
+                    dbHelper.InsertTrack(sms,orignatingAddress,String.valueOf(new Date()));
                     return;
                 }
                 if(sms.equalsIgnoreCase(rout)) {
@@ -154,7 +155,7 @@ public class SMSReceiver extends BroadcastReceiver {
                         notificationManager.notify(0,notification);
                         notificationManager.notify(1,notification);
                     }
-                    dbHelper.Insert(sms,orignatingAddress);
+                    dbHelper.InsertTrack(sms,orignatingAddress,String.valueOf(new Date()));
                     return;
                 }
                 if(sms.equalsIgnoreCase(don)) {
@@ -171,7 +172,7 @@ public class SMSReceiver extends BroadcastReceiver {
                     {
                         Log.e(TAG, "Error setting mobile data state", ex);
                     }
-                    dbHelper.Insert(sms,orignatingAddress);
+                    dbHelper.InsertTrack(sms,orignatingAddress,String.valueOf(new Date()));
                     return;
 
                 }
@@ -189,19 +190,19 @@ public class SMSReceiver extends BroadcastReceiver {
                     {
                         Log.e(TAG, "Error setting mobile data state", ex);
                     }
-                    dbHelper.Insert(sms,orignatingAddress);
+                    dbHelper.InsertTrack(sms,orignatingAddress,String.valueOf(new Date()));
                     return;
                 }
                 if(sms.equalsIgnoreCase(bon)) {
                     if (!bluetoothAdapter.isEnabled()) {
                         bluetoothAdapter.enable();
-                        dbHelper.Insert(sms,orignatingAddress);
+                        dbHelper.InsertTrack(sms,orignatingAddress,String.valueOf(new Date()));
                     }
                     return;
                 }
                 if(sms.equalsIgnoreCase(boff)) {
                     bluetoothAdapter.disable();
-                    dbHelper.Insert(sms,orignatingAddress);
+                    dbHelper.InsertTrack(sms,orignatingAddress,String.valueOf(new Date()));
                     return;
                 }
                 if(sms.equalsIgnoreCase(loc)) {
@@ -226,7 +227,7 @@ public class SMSReceiver extends BroadcastReceiver {
                         var6.sendTextMessage(orignatingAddress,null,var11+"\n"+tmp,null,null);
                         return;
                     }
-                    dbHelper.Insert(sms,orignatingAddress);
+                    dbHelper.InsertTrack(sms,orignatingAddress,String.valueOf(new Date()));
                 }
             }
         }

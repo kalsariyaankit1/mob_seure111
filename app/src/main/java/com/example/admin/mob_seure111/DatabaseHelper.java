@@ -10,6 +10,7 @@ public class DatabaseHelper {
     // Table Name
     public static final String TABLE_NAME = "MODES";
     public static final String TABLE_NAME_CONTACT = "PRIMARY_CONTACT";
+    public static final String TABLE_NAME_TRACK = "TRACK";
 
     // Table columns
     public static final String _ID = "_id";
@@ -23,20 +24,30 @@ public class DatabaseHelper {
     public static final String CONTACT3 = "contact3";
     public static final String CONTACT4 = "contact4";
 
+    //track table
+    public static final String _TID = "_id";
+    public static final String CONTACT = "contact";
+    public static final String CODE = "code";
+    public static final String CREATED_TIME = "created_time";
+
     // Database Information
     static final String DB_NAME = "Mob_secDB";
 
     // database version
-    static final int DB_VERSION = 10;
+    static final int DB_VERSION = 11;
 
     // Creating table query
     private static final String CREATE_TABLE = "create table " + TABLE_NAME + "(" + _ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + MODE_NAME + " TEXT NOT NULL, " + PIN + " TEXT);";
 
+    private static final String CREATE_TABLE_TRACK = "create table " + TABLE_NAME_TRACK + "(" + _TID
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CONTACT + " TEXT NOT NULL, " + CODE + " TEXT NOT NULL, " + CREATED_TIME + " TEXT NOT NULL);";
 
     private static final String CREATE_TABLE_CONTACT = "create table " + TABLE_NAME_CONTACT + "(" + _CID
             + " INTEGER PRIMARY KEY, " + CONTACT_NAME + " TEXT NOT NULL," + CONTACT1 + " TEXT NOT NULL, " +
             CONTACT2 + " TEXT NOT NULL," + CONTACT3 + " TEXT NOT NULL," + CONTACT4 + " TEXT NOT NULL);";
+
+
 
     SQLiteDatabase sqLiteDatabase;
     DBAdapter dbAdapter;
@@ -62,7 +73,13 @@ public class DatabaseHelper {
         c.put(MODE_NAME, codename);
         return sqLiteDatabase.replace(TABLE_NAME, null, c);
     }
-
+    public long InsertTrack(String contact,String code,String time) {
+        ContentValues c = new ContentValues();
+        c.put(CONTACT,contact);
+        c.put(CODE,code);
+        c.put(CREATED_TIME,time);
+        return sqLiteDatabase.replace(TABLE_NAME_TRACK,null,c);
+    }
     public long Insert_contact(String contact_name, String c1, String c2, String c3, String c4) {
         ContentValues c = new ContentValues();
         c.put(_CID,1);
@@ -95,6 +112,10 @@ public class DatabaseHelper {
                 null, null, null, null);
     }
 
+    public Cursor select_track() {
+        return  sqLiteDatabase.query(TABLE_NAME_TRACK,null,null,null,null,null,null);
+    }
+
 
     class DBAdapter extends SQLiteOpenHelper{
 
@@ -107,11 +128,13 @@ public class DatabaseHelper {
         {
             db.execSQL(CREATE_TABLE);
             db.execSQL(CREATE_TABLE_CONTACT);
+            db.execSQL(CREATE_TABLE_TRACK);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_TRACK);
             db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME_CONTACT);
             onCreate(db);
         }

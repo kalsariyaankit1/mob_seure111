@@ -5,5 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TrackActivity">
+    <ListView
+        android:id="@+id/listview_track"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+    </ListView>
 </android.support.constraint.ConstraintLayout>

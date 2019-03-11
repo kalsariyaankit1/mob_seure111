@@ -74,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
                 AlertDialog dialog = alert.create();
                 dialog.requestWindowFeature(1);
                 dialog.getWindow().setBackgroundDrawable((Drawable)new ColorDrawable(0));
-                dialog.show();
+                //dialog.show();
                 final Button btnReg;
                 final EditText edPin,edPhone;
 
