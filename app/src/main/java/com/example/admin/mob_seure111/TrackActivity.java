@@ -32,7 +32,7 @@ public class TrackActivity extends AppCompatActivity {
             c.moveToFirst();
             for(int i=0;i<c.getCount();i++) {
                 //name.add(c.getString(0));
-                contact.add(c.getString(1));
+                contact.add(c.getString(2) + "    " + c.getString(1));
                 code.add(c.getString(2));
                 date_time.add(c.getString(3));
                 c.moveToNext();
