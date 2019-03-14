@@ -6,12 +6,14 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.telephony.SmsManager;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-
-
 
 public class SimpleWidgetProvider extends AppWidgetProvider {
     private static final String MyOnClick = "myOnClickTag";
@@ -60,6 +62,32 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         if (ACTION_SIMPLEAPPWIDGET.equals(intent.getAction())) {
 
             Toast.makeText(context,"Hello",Toast.LENGTH_LONG).show();
+
+            DatabaseHelper dbHelper;
+            List<String> name;
+
+            SmsManager sms = SmsManager.getDefault();
+
+            name = new ArrayList<String>();
+            dbHelper = new DatabaseHelper(context);
+            dbHelper.open();
+            Cursor c =dbHelper.select_contact();
+            if(c != null) {
+                c.moveToFirst();
+                for (int i = 0; i < c.getCount(); i++) {
+                    name.add(c.getString(2));
+                    name.add(c.getString(3));
+                    name.add(c.getString(4));
+                    name.add(c.getString(5));
+                    c.moveToNext();
+                }
+            }
+
+            for(String number : name) {
+                if (!name.equals("") && name.size() == 10) {
+                    sms.sendTextMessage("+91"+number, null, "Emergency", null, null);
+                }
+            }
             // Construct the RemoteViews object
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.simple_widget);
 

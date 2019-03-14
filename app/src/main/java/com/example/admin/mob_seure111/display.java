@@ -32,7 +32,7 @@ public class display extends AppCompatActivity {
             c.moveToFirst();
             for(int i=0;i<c.getCount();i++) {
                 //name.add(c.getString(0));
-                cname.add(c.getString(1));
+                cname.add(c.getString(1) + " :  " + c.getString(2) );
                 code.add(c.getString(2));
                 c.moveToNext();
             }

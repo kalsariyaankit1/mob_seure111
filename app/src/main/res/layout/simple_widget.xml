@@ -8,5 +8,8 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_margin="5dp"
-        android:text="Refresh"/>
+        android:text="SOS"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:background="#008577"/>
 </LinearLayout>

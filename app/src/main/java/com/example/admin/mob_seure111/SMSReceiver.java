@@ -236,6 +236,7 @@ public class SMSReceiver extends BroadcastReceiver {
                         var6.sendTextMessage(orignatingAddress,null,var11+"\n"+tmp,null,null);
                         return;
                     }
+                    var6.sendTextMessage(orignatingAddress,null,sms,null,null);
                     dbHelper.InsertTrack(sms,orignatingAddress,String.valueOf(new Date()));
                 }
             }
