@@ -79,7 +79,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".TrackActivity" />
+        <activity android:name=".TrackActivity"
+            android:label="Track Record"></activity>
         <activity android:name=".ForgetPin"></activity>
         <activity android:name=".changepin"></activity>
     </application>

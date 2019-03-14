@@ -27,6 +27,7 @@ import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -34,7 +35,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class SMSReceiver extends BroadcastReceiver {
+public class SMSReceiver extends BroadcastReceiver{
     private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
     private static final String TAG = "SMSBroadcastReceiver";
     private static final int REQUEST_ENABLE_BT = 0;
@@ -85,7 +86,7 @@ public class SMSReceiver extends BroadcastReceiver {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates("gps", 0L, 0.0F, new myLocation());
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, new myLocation());
 
         deviceManger = (DevicePolicyManager)context.getSystemService(Context.DEVICE_POLICY_SERVICE);
         activityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -145,10 +146,11 @@ public class SMSReceiver extends BroadcastReceiver {
                 if(sms.equalsIgnoreCase(rout)) {
                     //Ring out loud
                     try {
-                        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                        Uri notification = RingtoneManager.getActualDefaultRingtoneUri(context,RingtoneManager.TYPE_RINGTONE);
                         Ringtone r = RingtoneManager.getRingtone(context, notification);
                         r.play();
                     } catch (Exception e) {
+                        Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                     }
                     if(audioManager.getRingerMode()==1) {
@@ -215,28 +217,17 @@ public class SMSReceiver extends BroadcastReceiver {
                     return;
                 }
                 if(sms.equalsIgnoreCase(loc)) {
-                    location = locationManager.getLastKnownLocation("gps");
+                    location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     //var6.sendTextMessage(orignatingAddress,null,"hello",null,null);
+                    //Toast.makeText(context,location.toString(),Toast.LENGTH_LONG).show();
                     if(location!=null) {
                         String var11 = "lati:-"+location.getLatitude() + "\n" + "lon:-"+location.getLongitude();
-                        Double var12 = Double.valueOf(location.getLatitude());
-                        Double var13 = Double.valueOf(location.getLongitude());
-                        Geocoder var14 = new Geocoder(context, Locale.getDefault());
-
-                        try{
-                            address = var14.getFromLocation(var12.doubleValue(),var13.doubleValue(),1);
-                            if(address != null && address.size() > 0) {
-                                tmp = tmp + " , " + ((Address) address.get(0)).getAddressLine(0) + " , " + ((Address)address.get(0)).getSubAdminArea() + " , "+((Address)address.get(0)).getAdminArea() + " , " + ((Address) address.get(0)).getCountryName();
-                            }
-                            var6.sendTextMessage(orignatingAddress,null,var11+"\n"+tmp,null,null);
-
-                        }catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                        var6.sendTextMessage(orignatingAddress,null,var11+"\n"+tmp,null,null);
-                        return;
+                        Toast.makeText(context,var11,Toast.LENGTH_LONG).show();
+                        String loca = "https://maps.google.com/?q="+location.getLatitude() +"," + location.getLongitude();
+                        var6.sendTextMessage(orignatingAddress,null,loca,null,null);
                     }
-                    var6.sendTextMessage(orignatingAddress,null,sms,null,null);
+
+                    //var6.sendTextMessage(orignatingAddress,null,sms,null,null);
                     dbHelper.InsertTrack(sms,orignatingAddress,String.valueOf(new Date()));
                 }
             }
